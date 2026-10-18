@@ -1,0 +1,78 @@
+<!doctype html>
+<html lang="id"><head><meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Dompet Pelajar</title>
+<link rel="manifest" href="manifest.webmanifest"><link rel="icon" href="icon-192.png">
+<meta name="theme-color" content="#6366f1"><meta name="apple-mobile-web-app-capable" content="yes"><meta name="mobile-web-app-capable" content="yes"><meta name="apple-mobile-web-app-title" content="Dompet">
+<link rel="stylesheet" href="style.css"></head><body>
+<main>
+<div class="top"><div><h1>💰 Dompet Pelajar</h1><div class="mu" id="bulan"></div></div><button onclick="theme()">🌓</button></div>
+<nav class="tabs"><button data-t="home" class="on">Beranda</button><button data-t="save">Tabungan</button><button data-t="goals">🏆 Misi</button><button data-t="debt">Utang</button><button data-t="tools">Alat</button><button data-t="hist">Riwayat</button></nav>
+
+<div class="banner" id="ban"></div>
+<div id="toast"></div>
+<section id="home" class="on">
+<div class="card hero"><div class="gh"><div class="ring" id="ring"><div><b id="today"></b><span>sisa jatah hari ini</span></div></div><div><div class="mu">Sisa uang bulan ini</div><div class="big" id="sisa"></div><div class="mu" id="per"></div><span class="pill" id="wk"></span></div></div></div>
+<div class="stats" id="st"></div>
+<div class="card"><h2>💡 Tips</h2><div id="tip"></div></div>
+<div class="card"><h2>Uang saku bulan ini</h2><div class="row"><input id="bud" type="number" inputmode="numeric" placeholder="mis. 500000"><button onclick="setBud()">Simpan</button></div></div>
+<div class="card"><h2>Catat transaksi</h2>
+<input id="amt" type="number" inputmode="numeric" placeholder="Nominal (Rp)">
+<div class="row"><select id="cat"><option>Makan</option><option>Transport</option><option>Jajan</option><option>Sekolah</option><option>Hiburan</option><option>Lainnya</option></select><input id="note" placeholder="Catatan (opsional)"></div>
+<div class="row"><button class="bad" onclick="addTx('out')">− Pengeluaran</button><button class="ok" onclick="addTx('in')">+ Pemasukan</button></div>
+<div class="mu" id="msg"></div></div>
+<div class="card"><h2>🔮 Insight keuangan</h2><div class="gh"><div class="ring sm" id="sc"><div><b id="scv">-</b></div></div><div><b id="scl"></b><div class="mu" id="prd" style="margin-top:4px"></div><div class="mu" id="bll" style="margin-top:4px"></div></div></div></div>
+<div class="card"><h2>🗓️ Kalender pengeluaran</h2><div class="heat" id="heat"></div></div>
+<div class="card"><h2>Pengeluaran 7 hari terakhir</h2><div class="chart" id="chart"></div></div>
+<div class="card"><h2>Pengeluaran per kategori</h2><div id="cats"></div>
+<div class="mu" style="margin:8px 0 6px">Atur batas per kategori (isi 0 untuk hapus):</div>
+<div class="row"><select id="lc"></select><input id="lv" type="number" inputmode="numeric" placeholder="Batas / bulan"><button onclick="setLimit()">Atur</button></div></div>
+</section>
+
+<section id="save">
+<div class="card hero"><div class="mu" id="gname"></div><div class="big" id="gtot"></div><div class="bar"><i id="gbar"></i></div><div class="mu" id="ginfo"></div><div id="streak" style="margin-top:6px;font-weight:600"></div></div>
+<div class="card"><h2>Nabung sekarang</h2>
+<div class="chips"><button onclick="addSave(1000)">+1.000</button><button onclick="addSave(2000)">+2.000</button><button onclick="addSave(5000)">+5.000</button><button onclick="addSave(10000)">+10.000</button></div>
+<div class="row"><input id="sv" type="number" inputmode="numeric" placeholder="Nominal lain"><button onclick="addSave(+$('sv').value)">Tabung</button></div>
+<div class="mu">Uang yang ditabung otomatis mengurangi sisa uang jajan, jadi sisihkan dulu sebelum jajan ya!</div></div>
+<div class="card"><h2>Target tabungan</h2><input id="gn" placeholder="Nama target, mis. HP baru">
+<div class="row"><input id="gt" type="number" inputmode="numeric" placeholder="Target (Rp)"><button onclick="setGoal()">Simpan</button></div></div>
+</section>
+
+<section id="goals">
+<div class="card"><h2>🔔 Pengingat nabung</h2>
+<div class="row"><input id="rt" type="time" value="19:00"><button onclick="setRem(1)">Aktifkan</button><button class="bad" onclick="setRem(0)">Matikan</button></div>
+<div class="mu" id="rs"></div></div>
+<div class="card"><h2>🎯 Tantangan Receh 30 hari</h2><div class="mu" style="margin-bottom:8px">Tap angka untuk nabung Rp1.000, tap lagi untuk membatalkan.</div><div class="grid" id="chal"></div></div>
+<div class="card"><h2>🏅 Lencana</h2><div class="bdg" id="bdg"></div></div>
+</section>
+<section id="debt">
+<div class="card hero"><div class="mu">Utang kamu yang belum lunas</div><div class="big" id="dowe"></div><div class="mu" id="dlent"></div></div>
+<div class="card"><h2>Catat utang / piutang</h2>
+<input id="dwho" placeholder="Nama teman">
+<input id="damt" type="number" inputmode="numeric" placeholder="Nominal (Rp)">
+<div class="row"><button class="bad" onclick="addDebt('owe')">Aku ngutang</button><button class="ok" onclick="addDebt('lent')">Dia ngutang</button></div></div>
+<div class="card"><h2>Daftar</h2><div id="dlist"></div></div>
+<div class="card"><h2>🧾 Tagihan rutin bulanan</h2>
+<input id="bn" placeholder="Nama tagihan, mis. Kuota">
+<div class="row"><input id="ba" type="number" inputmode="numeric" placeholder="Nominal"><input id="bd" type="number" inputmode="numeric" placeholder="Tgl (1-31)"></div>
+<button onclick="addBill()">Tambah tagihan</button><div id="bl" style="margin-top:8px"></div></div>
+</section>
+
+<section id="tools">
+<div class="card"><h2>🛍️ Worth it nggak?</h2><div class="row"><input id="wp" type="number" inputmode="numeric" placeholder="Harga barang (Rp)"><button onclick="worth()">Cek</button></div><div class="res" id="wr"></div></div>
+<div class="card"><h2>💳 Simulator cicilan / paylater</h2><input id="ch" type="number" inputmode="numeric" placeholder="Harga barang (Rp)"><div class="row"><input id="cb" type="number" inputmode="decimal" placeholder="Bunga % / bulan"><input id="cn" type="number" inputmode="numeric" placeholder="Tenor (bulan)"></div><button onclick="cicil()">Hitung</button><div class="res" id="cr"></div></div>
+<div class="card"><h2>📐 Aturan 50/30/20</h2><div id="r532"></div></div>
+<div class="card"><h2>📲 Pasang sebagai aplikasi</h2><div class="mu">Android (Chrome): menu ⋮ lalu Tambahkan ke layar utama. iPhone (Safari): tombol Bagikan lalu Tambah ke Layar Utama. Setelah itu muncul seperti aplikasi biasa.</div><button id="ib" style="display:none;margin-top:8px" onclick="inst()">Pasang sekarang</button></div>
+<div class="card"><h2>🍕 Patungan</h2>
+<input id="pt" type="number" inputmode="numeric" placeholder="Total tagihan (Rp)">
+<div class="row"><input id="pn" type="number" inputmode="numeric" placeholder="Jumlah orang"><button onclick="split()">Hitung</button></div><div class="res" id="pr"></div></div>
+<div class="card"><h2>🐷 Simulasi nabung</h2>
+<div class="row"><input id="sa" type="number" inputmode="numeric" placeholder="Per hari (Rp)"><input id="sd" type="number" inputmode="numeric" placeholder="Berapa hari"></div><button onclick="sim()">Hitung</button><div class="res" id="sr"></div></div>
+<div class="card"><h2>💾 Cadangkan data</h2><div class="mu" style="margin-bottom:8px">Data hanya tersimpan di browser ini. Salin teks hasil Cadangkan untuk jaga-jaga, lalu tempel lagi dan tekan Pulihkan.</div>
+<textarea id="bk"></textarea><div class="row"><button onclick="backup()">Cadangkan</button><button onclick="restore()">Pulihkan</button></div><div class="mu" id="bm" style="margin-top:6px"></div></div>
+</section>
+
+<section id="hist"><div class="card"><h2>Riwayat</h2><div id="list"></div></div></section>
+</main>
+<script src="app.js"></script></body></html>
