@@ -1,0 +1,32 @@
+{
+  "name": "dompet-pelajar",
+  "version": "1.0.0",
+  "description": "Aplikasi pengatur keuangan untuk pelajar",
+  "author": "Dompet Pelajar <dompet@example.com>",
+  "main": "electron/main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --publish never",
+    "android:add": "cap add android && cap sync android",
+    "android:open": "cap sync android && cap open android"
+  },
+  "dependencies": {
+    "@capacitor/android": "^6.1.2",
+    "@capacitor/core": "^6.1.2",
+    "@capacitor/local-notifications": "^6.1.0"
+  },
+  "devDependencies": {
+    "@capacitor/cli": "^6.1.2",
+    "electron": "^31.0.0",
+    "electron-builder": "^24.13.3"
+  },
+  "build": {
+    "appId": "id.dompet.pelajar",
+    "productName": "Dompet Pelajar",
+    "files": ["electron/**", "www/**", "build/icon.png"],
+    "directories": { "output": "dist" },
+    "win": { "target": "nsis" },
+    "mac": { "target": "dmg", "category": "public.app-category.finance" },
+    "linux": { "target": "AppImage", "category": "Office" }
+  }
+}
